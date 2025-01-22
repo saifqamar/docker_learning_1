@@ -1,49 +1,49 @@
-# This workflow warns and then closes issues and PRs that have had no activity for a specified amount of time.
-#
-# You can adjust the behavior by modifying this file.
-# For more information, see:
-# https://github.com/actions/stale
-name: Issue Management
+name: Issue Management with Ubuntu 22.04
 
 on:
   issues:
-    types: [opened]
+    types: [opened]  # Trigger when a new issue is created
 
 jobs:
   add-to-project:
-    runs-on: ubuntu-22.04
-    
+    runs-on: ubuntu-22.04  # Use Ubuntu 22.04 as the runner
     steps:
-    - name: Checkout code
-      uses: actions/stale@v5
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Add issue to project
-      uses: actions/github-script@v6
-      with:
-        script: |
+      # Step 2: Add the issue to the project board
+      - name: Add issue to project
+        uses: actions/github-script@v6
+        with:
+          script: |
             const { data: project } = await github.rest.projects.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               project_id: 1,  # Replace with your project ID
             });
+
             await github.rest.projects.createCard({
               column_id: 162881453,  # Replace with your column ID
               content_id: context.payload.issue.id,
               content_type: 'Issue',
             });
-    - name: Add label to issue
-      uses: actions/github-script@v6
-      with:
-        script: |
+
+      # Step 3: Add a label to the issue
+      - name: Add label to issue
+        uses: actions/github-script@v6
+        with:
+          script: |
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['triage'],  # Replace with your desired label(s)
             });
-      
 
-
+      # Step 4: Verify OS version (optional)
+      - name: Check OS version
+        run: lsb_release -a
 
 
 
