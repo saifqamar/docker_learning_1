@@ -7,4 +7,4 @@ def index(request):
 
 
 def second(request):
-    return HttpResponse("Hello, World! This is the second page.")
+    return HttpResponse("Hello, World! This is the second page. it will work today")
