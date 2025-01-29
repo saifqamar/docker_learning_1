@@ -20,7 +20,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/blockchain-department/openai-embeddings # list of Docker images to use as base name for tags
+          images: ghcr.io/saifqamar/docker_learning_1 # list of Docker images to use as base name for tags
           tags: |
             type=ref,event=branch
             type=sha
